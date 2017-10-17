@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CheckIN</title>
+    <!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
+    <link rel='stylesheet' href='/stylesheets/mystyle.css' />
+  </head>
+  <body id='auth'>
+    <div class='brand'>
+    	<h1>CheckIN</h1>
+    </div>
+    <form class='auth' action = '/auth' method='post'>
+    	<div class='auth-fields'>
+    		<label for='mail'>Email</label>
+    		<input autofocus name='email' id='mail' type="email">
+    	</div>
+    	<div class='auth-fields'>
+    		<label for='pass'>Password</label>
+    		<input name='password' id='pass' type="password">
+    	</div>
+    	<div class='auth-button'>
+    		<input type="submit" value="Login">
+    	</div>
+    </form>
+  </body>
+</html>
