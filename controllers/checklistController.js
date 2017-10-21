@@ -52,7 +52,7 @@ Controller.schedule = function(req, res, next) {
     var groupID;
     var groupName = req.body.group;
     var date = req.body.date;
-    console.log(dateTrue);
+    console.log(date);
     connection.query("SELECT * from groups WHERE Name = ?", [groupName], function(err, results, fields) {
         if (err) {
             console.log(err);
