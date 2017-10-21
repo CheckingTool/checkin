@@ -4,6 +4,10 @@
     <title>CheckIN</title>
     <!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
     <link rel='stylesheet' href='/stylesheets/mystyle.css' />
+     <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
   </head>
   <body id='auth'>
     <div class='brand'>
@@ -20,7 +24,19 @@
     	</div>
     	<div class='auth-button'>
     		<input type="submit" value="Login">
+            
     	</div>
     </form>
+      <form action="/register/" method="get">
+            <input type="submit" value="Register">
+        
+      </form>
+      <script>
+        $('#register').click(function(){
+            console.log('here we are');
+           $.get('http://localhost:3000/register/'); 
+        });
+        
+      </script>
   </body>
 </html>

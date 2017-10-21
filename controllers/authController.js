@@ -24,17 +24,23 @@ Controller.signup = function(req,res,next){
     var email = req.body.email;
     var password = req.body.password;
     console.log(email, ' ', password);
-    connection.query('SELECT * FROM teachers WHERE Email = ? AND Password = ?', [email, password],
-        function(err, results, fields) {
-         if (err) {
-             console.log(err);
-         } else {
-             res.redirect(301, '/main');
-             console.log('Results are: ', results);
+    if (email == 'admin@gmail.com' && password == 'admin') {
+        res.redirect(301, '/admin');
+    } else {
+            connection.query('SELECT * FROM teachers WHERE Email = ? AND Password = ?', [email, password],
+            function(err, results, fields) {
+             if (err) {
+                 console.log(err);
+             } else {
+                 res.redirect(301, '/main');
+                 console.log('Results are: ', results);
 
-         }
-    });
-}
+             }
+        });
+    }
+
+};
+
 module.exports = Controller;
 
 

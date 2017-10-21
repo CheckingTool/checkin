@@ -5,13 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-
+var reg = require('./routes/reg');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var auth = require('./routes/auth');
 var main = require('./routes/main');
 var checklist = require('./routes/checklist')
-
+var admin = require('./routes/admin');
 var app = express();
 
 // view engine setup
@@ -29,6 +29,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session( {secret: '123', cookie: {maxAge: 60000}}));
 
 app.use('/', index);
+app.use('/register', reg);
+app.use('/admin', admin);
 app.use('/users', users);
 app.use('/auth',auth);
 app.use('/main',main);

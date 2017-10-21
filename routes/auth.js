@@ -5,6 +5,4 @@ const controller = require('../controllers/authController');
 
 /* GET home page. */
 router.post('/', controller.signup);
-
-
 module.exports = router;
