@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+    <title>CheckIN</title>
+    <link rel='stylesheet' href='/stylesheets/mystyle.css' />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+  </head>
+  <body>
+  	<header>
+      <h1>Misses list</h1>
+    </header>
+    <div class="container">
+        <h3><%= group %></h3>
+        <h3><%= date %></h3>
+        
+        <% for(var j=0; j<lessons.length; j++) {%>
+            <div id="<%= lessons[j] %>" style="display:inline-block; margin: 15px">
+                <h4><%= lessons[j] %></h4>
+                <% for(var i=0; i<students.length; i++) {%>    
+                    <h5><%=students[i].Name %><input type="checkbox" name='<%=students[i].Name %>' id="attend" value="attend"></h5>
+                <% } %>
+                <button id="confirm">Отправить</button> 
+            </div>
+        <% }%>
+ 
+    </div> 
+       
+      <script>
+          var studarr = [];
+          $('button').click(function(){
+               studarr.length = 0;
+               console.log('studarrlength: ', studarr.length);
+               var chvalue = $(this).closest('div').children('h5').children('input[type=checkbox]');
+               var lessonname = $(this).closest('div').attr('id');
+              (chvalue).each(function () {
+                  
+                  if (this.checked) {
+                      studarr.push(true);
+                      console.log(true);
+                  } else {
+                      studarr.push(false);
+                      console.log(false);
+                  }
+                   
+              });  
+              $.post('http://localhost:3000/checklist/feedback', {
+                  studarr: studarr,
+                  lessonname: lessonname
+              });
+          });
+      </script>
+      
+  </body>
+  </html>

@@ -13,7 +13,7 @@
       <h1>Check list</h1>
     </header>
     <div class="container">
-    	<form >
+    	<form action="/checklist/schedule" method="post">
             
             <select name="group" id="group">
                 <option></option>
@@ -27,13 +27,7 @@
                     <option><%= dates[i].Date %></option>
                 <% } %>
             </select>
-            <select>
-                <option></option>
-                <% for (var i=0; i<lessons.length; i++) {%> 
-                    <option><%= lessons[i]%></option>
-                <% } %>
-            </select>
-            <input type="submit" value="Show">
+            <input type="submit" id="submit" value="Show">
         </form>
     </div> 
       
@@ -47,13 +41,15 @@
           $('#date').change(function() {
             date = $('#date option:selected').text();
             console.log(date.length);
+            
+        });
+          
+        $('#subbit').click(function() {
             if ($('#group').val() && $('#date').val()) {
-              $.post('http://localhost:3000/checklist/schedule', {
+                $.post('http://localhost:3000/checklist/schedule', {
                   group: group,
                   date: date
-              }, $.get('http://localhost:3000/checklist/lessons', function(data){
-                console.log(data);  
-              }));
+              });
           }
         });
 

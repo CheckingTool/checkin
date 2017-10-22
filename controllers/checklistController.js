@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var mysql = require('mysql');
 var connection = mysql.createConnection({
     host: 'localhost',
@@ -18,12 +19,19 @@ connection.connect(function(err) {
 
 let Controller = function(){}
 var lessonName = [];
+var lessonID = [];
+var groupName;
 var groups = [];
+var groupID;
+var studID = [];
+var selGroup;
 var dates = [];
+var selDate;
+var attendance = [];
+
+
 Controller.index = function(req,res,next){
 	
-//    var groups = [];
-//    var dates = [];
     connection.query("SELECT * FROM groups", function (err, results, fields) {
         if (err) {
             console.log(err);
@@ -31,16 +39,17 @@ Controller.index = function(req,res,next){
             groups = results;
             
         }
-        console.log("groups in loop: ", groups.length);
         
-        connection.query("SELECT * FROM schedules", function (err, results, fields) {
+        connection.query("SELECT Date FROM schedules", function (err, results, fields) {
         if (err) {
             console.log(err);
         } else {
             dates = results;
             
         }
-        res.render('checklist', {groups: groups, dates: dates, lessons: lessonName});
+
+        var uniqdates = _.uniqBy(dates, 'Date');
+        res.render('checklist', {groups: groups, dates: uniqdates, lessons: lessonName});
         });
     });
     
@@ -48,20 +57,18 @@ Controller.index = function(req,res,next){
     
 };
 Controller.schedule = function(req, res, next) {
-    var lessonID = [];
-    var groupID;
+    
     var groupName = req.body.group;
     var date = req.body.date;
-    console.log(date);
+    selGroup = groupName;
+    selDate = date;
     connection.query("SELECT * from groups WHERE Name = ?", [groupName], function(err, results, fields) {
         if (err) {
             console.log(err);
         } else {
             for (var i in results) {
                 groupID = results[i].ID;
-                
             }
-            console.log("groupID: ", groupID);
             connection.query("SELECT Lesson_ID FROM schedules WHERE Group_ID = ? AND Date = ?", [groupID, date], function(err, results, fields) {
                 if (err) {
                     console.log(err);
@@ -69,7 +76,6 @@ Controller.schedule = function(req, res, next) {
                     console.log('resulst are: ', results);
                     for (var i in results) {
                         lessonID.push(results[i].Lesson_ID);
-                        //console.log(lessonID);
                     }
                 }
                 connection.query("SELECT Name FROM lessons WHERE ID IN (?)",
@@ -80,8 +86,7 @@ Controller.schedule = function(req, res, next) {
                        for (var i in results) {
                            lessonName.push(results[i].Name);
                        }
-                       console.log('results are: ', lessonName);
-                       //res.redirect(301, '/');
+                       res.redirect(301, '/checklist/misses');
                    } 
                 });
             });
@@ -90,9 +95,61 @@ Controller.schedule = function(req, res, next) {
    
 };
 
-Controller.lessons = function(req, res, next) {
-    console.log("lessons controller: ", lessonName);
-   res.render('checklist', {groups: groups, dates: dates, lessons: lessonName});
+Controller.misses = function(req, res, next) {
+    connection.query('SELECT * from Students WHERE Group_ID=?', [groupID], function(err, results) {
+       if (err) {
+           console.log(err);
+       } else {
+           res.render('misses', {lessons: lessonName, date: selDate, group: selGroup, students: results});  
+       }
+    });
+    
+};
+
+Controller.feedback = function(req, res, next) {
+  var lessonid;
+
+  var missesinfo = req.body;
+    console.log(missesinfo);
+    connection.query('SELECT ID from lessons WHERE Name= ?', [missesinfo.lessonname], function(err, results){
+        if (err) {
+            console.log(err);
+        } else {
+            for (var i in results) {
+                lessonid = results[i].ID;
+            }
+
+        }
+        connection.query('SELECT ID from students where Group_ID = ?', [groupID], function(err, results) {
+            if (err) {
+                console.log(err);
+            } else {
+                for (var i in results) {
+                    studID.push(results[i].ID);
+                }
+                delete missesinfo.lessonname;
+                let temp;
+                
+                temp = missesinfo['studarr[]'];
+                for (var i in temp) {
+                    attendance.push(temp[i]);
+                }
+            }
+
+            for (var i=0; i<studID.length; i++) {
+                    console.log(studID.length);
+                    connection.query('INSERT INTO student_misses (Lesson_ID, Student_ID, Date, Attend) VALUES (?, ?, ?, ?)', [lessonid, studID[i], selDate, attendance[i]], function(err, results){
+                    if (err) {
+                        console.log(err);
+                    } 
+                });
+
+            }
+            studID.length = 0;
+            missesinfo = {};
+            
+        });
+    }); 
 
 };
 
