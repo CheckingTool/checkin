@@ -3,6 +3,7 @@
   <head>
     <title>CheckIN</title>
     <link rel='stylesheet' href='/stylesheets/mystyle.css' />
+      
     <script
       src="https://code.jquery.com/jquery-3.2.1.min.js"
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -22,9 +23,10 @@
                 <% for(var i=0; i<students.length; i++) {%>    
                     <h5><%=students[i].Name %><input type="checkbox" name='<%=students[i].Name %>' id="attend" value="attend"></h5>
                 <% } %>
-                <button id="confirm">Отправить</button> 
+                <button id="confirm">Отправить</button>
             </div>
         <% }%>
+        <button><a href='/main'>To the main page</a></button>
  
     </div> 
        

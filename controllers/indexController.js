@@ -1,7 +1,8 @@
 let Controller = function(){}
 
 Controller.index = function(req,res,next){
-	res.render('index', {user:'User'});
+    console.log(req.session.email);
+	res.render('index', {admin: req.session.admin, user:req.session.email});
 };
 
 module.exports = Controller;

@@ -47,6 +47,7 @@ Controller.register = function(req, res, next) {
                            if (err) {
                                console.log(err);
                            } else {
+                               req.session.email = req.body.email;
                                console.log('succeded');
                                res.redirect(301, '/main');
                            }

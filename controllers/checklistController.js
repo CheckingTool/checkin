@@ -82,8 +82,9 @@ Controller.schedule = function(req, res, next) {
                     [lessonID], function(err, results, fields) {
                    if (err) {
                        console.log(err);
-                   } else {   
+                   } else {  
                        for (var i in results) {
+                           
                            lessonName.push(results[i].Name);
                        }
                        res.redirect(301, '/checklist/misses');
@@ -100,7 +101,18 @@ Controller.misses = function(req, res, next) {
        if (err) {
            console.log(err);
        } else {
-           res.render('misses', {lessons: lessonName, date: selDate, group: selGroup, students: results});  
+           res.render('misses', {lessons: lessonName, date: selDate, group: selGroup, students: results});
+            lessonName = [];
+            lessonID = [];
+            groupName = '';
+            groups = [];
+            groupID = '';
+            studID = [];
+            selGroup = '';
+            dates = [];
+            selDate = '';
+            attendance = [];
+           delete results;
        }
     });
     
