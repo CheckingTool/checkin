@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CheckIN</title>
+    <!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
+    <link rel='stylesheet' href='/stylesheets/mystyle.css' />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+    <style>
+        table {border: 3px black solid;}  
+      
+    </style>
+  </head>
+  <body id='admin'>
+      <div class="container">
+          <div id="teachers">
+                <table>
+                    <h4>Teachers</h4>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Login</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                    </tr>
+                    <% for (var i=0; i<teachers.length; i++) { %> 
+                    <tr>
+                        <td><%= teachers[i].ID %></td>
+                        <td><%=teachers[i].Name %></td>
+                        <td><%=teachers[i].Login %></td>
+                        <td><%=teachers[i].Email %></td>
+                        <td><%=teachers[i].Password %></td>
+                    </tr>    
+                    <% } %>
+                </table>
+                <form method="post" class="register-form col s3 m3 l3">
+                    <div class="input-field col s3 m3 l3">
+                        <input id="id" type="text" name="id" required>
+                        <label for="id">ID</label>
+                    </div>
+                    <div class="input-field col s3 m3 l3">
+                        <input id="name" type="text" name="name" required>
+                        <label for="name">Name</label>
+                    </div>
+                    <div class="input-field col s3 m3 l3">
+                        <input id="login" type="text" name="login" required>
+                        <label for="login">Login</label>
+                    </div>
+                    <div class="input-field col s3 m3 l3">
+                        <input class="validate" id="email" type="email" name="email" required>
+                        <label for="email" data-error="wrong" data-success="ok">Email</label>
+                    </div>
+                    <div class="input-field col s3 m3 l3">
+                        <input id="password" type="password" name="password" required>
+                        <label for="password">Password</label>
+                    </div>
+                    <div>
+                        <input class="btn waves-effect waves-light" type="submit" value="Add" formaction="/admin/addteacher">
+                        <input class="btn waves-effect waves-light" type="submit" value="Delete" formaction="/admin/delteacher">
+                    </div>
+                
+                </form>
+            </div>
+            <div id="lessons">
+                <table>
+                    <h4>Lessons</h4>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                    </tr>
+                    <% for (var j=0; j<lessons.length; j++) { %> 
+                    <tr>
+                        <td><%=lessons[j].ID %></td>
+                        <td><%=lessons[j].Name %></td>
+                    </tr>    
+                    <% } %>
+                </table>
+                <form method="post" class="register-form col s3 m3 l3">
+                    <div class="input-field col s3 m3 l3">
+                        <input id="id" type="text" name="id" required>
+                        <label for="id">ID</label>
+                    </div>
+                    <div class="input-field col s3 m3 l3">
+                        <input id="name" type="text" name="name" required>
+                        <label for="name">Name</label>
+                    </div>
+                    <div>
+                        <input class="btn waves-effect waves-light" type="submit" value="Add" formaction="/admin/addlesson">
+                        <input class="btn waves-effect waves-light" type="submit" value="Delete" formaction="/admin/dellesson">
+                    </div>
+                
+                </form>
+            </div>   
+            <div id="groups">
+                <table>
+                    <h4>Groups</h4>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Teacher ID</th>
+                    </tr>
+                    <% for (var k=0; k<groups.length; k++) { %> 
+                    <tr>
+                        <td><%=groups[k].ID %></td>
+                        <td><%=groups[k].Name %></td>
+                        <td><%=groups[k].Teacher_ID %></td>
+                    </tr>    
+                    <% } %>
+                </table>
+                <form method="post" class="register-form col s3 m3 l3">
+                    <div class="input-field col s3 m3 l3">
+                        <input id="id" type="text" name="id" required>
+                        <label for="id">ID</label>
+                    </div>
+                    <div class="input-field col s3 m3 l3">
+                        <input id="name" type="text" name="name" required>
+                        <label for="name">Name</label>
+                    </div>
+                    <div class="input-field col s3 m3 l3">
+                        <input id="name" type="text" name="teacherid">
+                        <label for="name">Teacher ID</label>
+                    </div>
+                    <div>
+                        <input class="btn waves-effect waves-light" type="submit" value="Add" formaction="/admin/addgroup">
+                        <input class="btn waves-effect waves-light" type="submit" value="Delete" formaction="/admin/delgroup">
+                    </div>
+                
+                </form>
+            </div>    
+      </div>  
+  </body>
+</html>

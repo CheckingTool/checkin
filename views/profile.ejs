@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Profile</title>
+    <!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
+    <link rel='stylesheet' href='/stylesheets/mystyle.css' />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
+    <link rel='stylesheet' href='/stylesheets/mystyle.css' />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+
+  </head>
+  <body id='admin'>
+      <div class="container">
+          <div class="showInfo" style="margin-top: 100px;">  
+              <% for (var i=0; i<userinfo.length; i++) {%>
+                <h5><b>Your Login:</b> <%= userinfo[i].Login %> </h5>
+                <h5><b>Your Name:</b> <%= userinfo[i].Name %> </h5>
+                <h5><b>Your Email:</b> <%= userinfo[i].Email %> </h5>
+                <h5><b>Your Password:</b> <%= userinfo[i].Password %> </h5>
+              <% } %>
+          </div>
+          <br>
+          <div class="changeInfo">
+                <h4><b>Change data</b></h4>
+                <form method="post" action="/profile/newlogin" class="register-form col s3 m3 l3">
+                    <div class="input-field col s3 m3 l3">
+                        <input id="login" type="text" name="login" required>
+                        <label for="login">New login</label>
+                    </div>
+                    <div>
+                        <input class="btn waves-effect waves-light" type="submit" value="Change">
+                    </div>
+                </form>
+               <form method="post" action="/profile/newname" class="register-form col s3 m3 l3">
+                    <div class="input-field col s3 m3 l3">
+                        <input id="name" type="text" name="name" required>
+                        <label for="name">New name</label>
+                    </div>
+                    <div>
+                        <input class="btn waves-effect waves-light" type="submit" value="Change">
+                    </div>
+                </form>
+               <form method="post" action="/profile/newemail" class="register-form col s3 m3 l3">
+                    <div class="input-field col s3 m3 l3">
+                        <input class="validate" id="email" type="email" name="email" required>
+                        <label for="email" data-error="wrong" data-success="ok">New email</label>
+                    </div>
+                    <div>
+                        <input class="btn waves-effect waves-light" type="submit" value="Change">
+                    </div>
+                </form>
+               <form method="post" action="/profile/newpass" class="register-form col s3 m3 l3">
+                    <div class="input-field col s3 m3 l3">
+                        <input id="password" type="text" name="password" required>
+                        <label for="password">New password</label>
+                    </div>
+                    <div>
+                        <input class="btn waves-effect waves-light" type="submit" value="Change">
+                    </div>
+                </form>
+                <button><a href="/main">To the main page</a></button>
+          </div>
+      </div>  
+  </body>
+</html>

@@ -5,13 +5,16 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-
+var reg = require('./routes/reg');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var auth = require('./routes/auth');
 var main = require('./routes/main');
-var checklist = require('./routes/checklist')
-
+var logout = require('./routes/logout');
+var checklist = require('./routes/checklist');
+var profile = require('./routes/profile');
+var nocache = require('nocache');
+var admin = require('./routes/admin');
 var app = express();
 
 // view engine setup
@@ -21,14 +24,19 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(nocache());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session( {secret: '123', cookie: {maxAge: 60000}}));
+app.use(session({secret: '123'}));
 
 app.use('/', index);
+app.use('/profile', profile);
+app.use('/logout', logout);
+app.use('/register', reg);
+app.use('/admin', admin);
 app.use('/users', users);
 app.use('/auth',auth);
 app.use('/main',main);

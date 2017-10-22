@@ -3,35 +3,54 @@
   <head>
     <title>CheckIN</title>
     <link rel='stylesheet' href='/stylesheets/mystyle.css' />
+    <style>
+        .disabled {
+            pointer-events: none;
+        }  
+      
+    </style>
   </head>
     <body id="main">
      <header>
-      <h1><%= user%></h1>
+      <h1><%= user%></h1> <form method="get" action="logout/"><input type="submit" value="log out"></form>
     </header>    
-        <div class="container">    	
-            <div class="block">
-                <div class='layout'></div>
-                <img src='../images/nout.jpeg'>
-                <div class='footer'>  
-                  <h3>Add notice</h3>
+        <div class="container">  
+            <a href="/admin" id="admin" class="disabled">
+                <div class="block">
+                    <div class='layout'></div>
+                    <img src='../images/nout.jpeg'>
+                    <div class='footer'>  
+                      <h3>Admin Panel</h3>
+                    </div>
                 </div>
-            </div>
-            <a href="/main/check"><div id='check' class="block">
-                <div class='layout'></div>
-                <img src='../images/checklist.jpeg'>
-                <div class='footer'>
-                  <h3>Check</h3>
+            </a>
+            <a href="/main/check">
+                <div id='check' class="block">
+                    <div class='layout'></div>
+                    <img src='../images/checklist.jpeg'>
+                    <div class='footer'>
+                      <h3>Check</h3>
+                    </div>
                 </div>
-            </div></a>
-            <div class="block">
-                <div class='layout'></div>
-                <img src='../images/viewcode.jpeg'>
-                <div class='footer'>
-                  <h3>View code</h3>
+            </a>
+            <a href="/profile">
+                <div class="block">
+                    <div class='layout'></div>
+                    <img src='../images/viewcode.jpeg'>
+                    <div class='footer'>
+                      <h3>Profile</h3>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </body>
     <script type="text/javascript" src='/javascripts/jquery-3.1.0.min.js'></script>
+    <script>
+        var admin = <%= admin %>;
+        console.log(admin);
+        if (admin) {
+            $('#admin').removeClass('disabled');
+        }
+    </script>  
     <script type="text/javascript" src='/javascripts/script.js'></script>
   </html>

@@ -24,17 +24,34 @@ Controller.signup = function(req,res,next){
     var email = req.body.email;
     var password = req.body.password;
     console.log(email, ' ', password);
-    connection.query('SELECT * FROM teachers WHERE Email = ? AND Password = ?', [email, password],
-        function(err, results, fields) {
-         if (err) {
-             console.log(err);
-         } else {
-             res.redirect(301, '/main');
-             console.log('Results are: ', results);
+    if (email == 'admin@gmail.com' && password == 'admin') {
+        req.session.isLoggedIn = true;
+        req.session.email = email;
+        req.session.admin = true;
+        res.redirect(301, '/main');
+    } else {
+            connection.query('SELECT * FROM teachers WHERE Email = ? AND Password = ?', [email, password],
+            function(err, results, fields) {
+             if (results.length == 0) {
+                 console.log('your password or login is incorrect');
+                 res.redirect(301, '/auth');
+             } else {
+                 req.session.isLoggedIn = true;
+                 req.session.email = email;
+                 res.redirect(301, '/main');
+             }
+        });
+    }
 
-         }
+};
+
+Controller.logout = function(req, res, next) {
+    req.session.destroy(function (err) {
+          console.log('logout controller');
+          res.redirect(301, '/auth');
     });
-}
+};
+
 module.exports = Controller;
 
 
