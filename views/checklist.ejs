@@ -8,20 +8,20 @@
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
       crossorigin="anonymous"></script>
   </head>
-  <body>
+  <body id="checklist">
   	<header>
       <h1>Check list</h1>
     </header>
     <div class="container">
-    	<form action="/checklist/schedule" method="post">
+    	<form class='container' action="/checklist/schedule" method="post">
             
-            <select name="group" id="group">
+            <select name="group" id="group" required>
                 <option></option>
                 <% for(var i=0; i<groups.length; i++) {%>
                     <option><%= groups[i].Name %></option>
                 <% } %>
             </select>
-            <select name="date" id="date">
+            <select name="date" id="date" required>
                 <option></option>
                 <% for(var i=0; i<dates.length; i++) {%>
                     <option><%= dates[i].Date %></option>

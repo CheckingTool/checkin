@@ -12,10 +12,15 @@
   </head>
     <body id="main">
      <header>
-      <h1><%= user%></h1> <form method="get" action="logout/"><input type="submit" value="log out"></form>
+         <div class="header-title">
+             <h1><%= user%></h1>
+         </div>
+         <div class="header-button">
+             <form method="get" action="logout/"><input type="submit" value="Log out"></form>
+         </div>
     </header>    
         <div class="container">  
-            <a href="/admin" id="admin" class="disabled">
+            <a href="/admin" id="admin-block" class="disabled">
                 <div class="block">
                     <div class='layout'></div>
                     <img src='../images/nout.jpeg'>
@@ -49,7 +54,8 @@
         var admin = <%= admin %>;
         console.log(admin);
         if (admin) {
-            $('#admin').removeClass('disabled');
+            console.log('gopvno');
+            $('#admin-block').removeClass('disabled');
         }
     </script>  
     <script type="text/javascript" src='/javascripts/script.js'></script>

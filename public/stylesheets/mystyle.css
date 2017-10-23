@@ -2,6 +2,17 @@
     font-family: Roboto; 
     src: url(../fonts/roboto/Roboto-Regular.woff2); 
    }
+input[placeholder]          {text-overflow:ellipsis; color:#a69b97}
+input::-moz-placeholder     {text-overflow:ellipsis; color:#a69b97}
+input:-moz-placeholder      {text-overflow:ellipsis; color:#a69b97}
+input:-ms-input-placeholder {text-overflow:ellipsis; color:#a69b97}
+
+input:focus::-webkit-input-placeholder {color: transparent; transition:.1s; transition-timing-function: ease;}
+input:focus::-moz-placeholder          {color: transparent; transition:.1s; transition-timing-function: ease;}
+input:focus:-moz-placeholder           {color: transparent; transition:.1s; transition-timing-function: ease;}
+input:focus:-ms-input-placeholder      {color: transparent; transition:.1s; transition-timing-function: ease;}
+
+
 body{
 	margin:0;
 	padding: 0;
@@ -112,18 +123,84 @@ form{
     background-color: #f57c00;
     min-width: 100%;
 }
-#main>header>h1{
+/**#checklist>header>h1,#main>header>h1{
 	font-size: 30px;
 	margin:0;
 	padding: 10px;
 	color:white;
 	letter-spacing: 1px;
 }
-#main>header{
+#checklist>header,#main>header{
 	box-shadow:  0 5px 5px  rgba(0,0,0,0.70);
 	width: 100%;
 	height:64px;
-	background:   #e65100; /*rgba(38, 50, 56, 0.9);*/
+	background:   #e65100;
+}**/
+header h1{
+	font-size: 30px;
+	margin:0;
+	padding: 10px;
+	color:white;
+	letter-spacing: 1px;
+}
+header{
+	box-shadow:  0 5px 5px  rgba(0,0,0,0.70);
+	width: 100%;
+	height:64px;
+	background:   #e65100;
+}
+.header-title{
+	width:80%;
+	height: inherit;
+	float:left;
+}
+.header-button{
+	width: 20%;
+	min-width: 140px;
+	height: inherit;
+	float:left;
+}
+.header-button  a{
+	float:left;
+	min-width: 140px;
+	height: 44px;
+	cursor: pointer;
+	color: #fff;
+	font-size: 18px;
+	padding-top: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-decoration: none;
+	text-align: center;
+}
+.header-button  a:hover{
+	outline:#e0e0e0;
+	background: #c30000;
+	transition: 1s;
+	transition-timing-function: ease;
+}
+
+.header-button form{
+	padding:0;
+	height: 64px;
+	background: inherit;
+}
+/*rgba(38, 50, 56, 0.9);*/
+.header-button form input{
+	cursor: pointer;
+	background: inherit;
+	padding: 0 50px;
+	height: 64px;
+	color: #fff;
+	font-size: 18px;
+	border: none;
+	outline: none;
+}
+.header-button form input:hover{
+	outline:#e0e0e0;
+	background: #c30000;
+	transition: 1s;
+	transition-timing-function: ease;
 }
 .container{
 	position: relative;
@@ -187,4 +264,114 @@ form{
 }
 .block .footer h3{
 	padding: 5px 10px;
+}
+.block .block-header {
+	position:  absolute;
+	top:0;
+	left:0;
+	width:100%;
+	z-index: 10;
+	margin-bottom: 30px;
+	background: #e65100;
+	color:#fff;
+	padding-left: 10px;
+}
+.block .block-header h2{
+	font-weight: 100;
+}
+.container form select{
+	/*padding: 10px 90px;*/
+	/*border: none;*/
+	width:calc(35% - 30px);
+	height: 50px;
+	text-align:  center;
+	/*required: true;*/
+	margin: 15px;
+	outline: none;
+}
+
+.container form #submit{
+	/*padding: 10px 45px;*/
+	width: calc(20% - 30px);
+	font-size: 18px;
+	sletter-spacing: 2px;
+	height: 50px;
+	background: #e65100;
+	color: #fff;
+	margin: 15px;
+	font-family: Roboto;
+	border: none;
+	outline: none;
+}
+.container form #submit:hover{
+	outline:#e0e0e0;
+	background: #c30000;
+	transition: 1s;
+	transition-timing-function: ease;
+}
+#misses .block{
+	display: block;
+	padding: 10px;
+	float: none;
+}
+
+#confirm{
+	sletter-spacing: 2px;
+	padding: 10px 20px;
+	background: #e65100;
+	color: #fff;
+	font-size: 14px;
+	margin: 15px;
+	font-family: Roboto;
+	border: none;
+	outline: none;
+}
+.container form #submit:hover{
+	outline:#e0e0e0;
+	background: #c30000;
+	transition: 1s;
+	transition-timing-function: ease;
+}
+#admin .block{
+	padding:10px;
+	width: 90%;
+	margin: 20px 5%;
+}
+
+.changeInfo form{
+	padding: 0 50px;
+	margin: 100px;
+}
+
+.input-field input{
+	width: 90%;
+	padding: 10px;
+	margin: 20px 5%;
+	border:none;
+	border-bottom: 1px solid #c30000;
+	font-size: 18px;
+}
+
+.input-field input:focus{
+	outline:none;
+	border-bottom: 2px solid #c30000;
+	transition: 1s;
+	transition-timing-function: ease;
+}
+.sub{
+	padding-left: 25px;
+}
+#admin .sub input{
+	width: auto;
+	padding: 14px 30px;
+	border-radius: 2px;
+	background: #c30000;
+	float: left;
+	border:none;
+	outline:none;
+	color:#fff;
+	font-weight: 300;
+	font-size: 16px;
+	letter-spacing: .1px;
+	text-transform: uppercase;
 }
