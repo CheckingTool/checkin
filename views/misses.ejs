@@ -9,14 +9,21 @@
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
       crossorigin="anonymous"></script>
   </head>
-  <body>
+  <body id="misses">
   	<header>
-      <h1>Misses list</h1>
+      <div class='header-title'>
+          <h1>Misses list</h1>
+      </div>
+      <div class='header-button'>
+          <button><a href='/main'>To the main page</a></button>
+      </div>
     </header>
     <div class="container">
-        <h3><%= group %></h3>
-        <h3><%= date %></h3>
-        
+        <div class="block">
+            <h3><%= group %></h3>
+            <h3><%= date %></h3>
+        </div>
+        <div class="block">
         <% for(var j=0; j<lessons.length; j++) {%>
             <div id="<%= lessons[j] %>" style="display:inline-block; margin: 15px">
                 <h4><%= lessons[j] %></h4>
@@ -26,7 +33,8 @@
                 <button id="confirm">Отправить</button>
             </div>
         <% }%>
-        <button><a href='/main'>To the main page</a></button>
+        </div>
+        <!--<button><a href='/main'>To the main page</a></button>-->
  
     </div> 
        
