@@ -53,30 +53,41 @@ Controller.list = function(req, res, next) {
     selDate = req.body.date;
     selGroup = req.body.group;
     var selGroupID;
-    console.log(selGroup);
-    connection.query('SELECT ID FROM groups WHERE Name=?', [selGroup], function(err, results) {
-        if (err) {
-            console.log(err);
-        } else {
-            for (var i in results) {
-                selGroupID = results[i].ID;
-            }
-            connection.query('select student_misses.Lesson_ID, student_misses.Student_ID, student_misses.Attend, student_misses.Date, students.Name, lessons.Name as SubjName from student_misses inner join students on student_misses.Student_ID=students.ID inner join lessons on student_misses.Lesson_ID=lessons.ID WHERE students.Group_ID = ? and student_misses.Date = ?', [selGroupID, selDate], function(err, results) {
-               if (err) {
-                   console.log(err);
-               } else {
-                   for (var i in results) {
-                       console.log(results[i]);
-                       studArr.push(results[i]);
+    console.log(selDate);
+    if (selDate == 'Total') {
+        connection.query('select students.name, students.Total_Misses, groups.ID from students inner join groups on students.Group_ID=groups.ID WHERE groups.Name = ? ', [selGroup], function(err, results) {
+           if (err) {
+               console.log(err);
+           } else {
+               console.log(results);
+               res.render('attendancetotal', {students: results, group: selGroup, date: selDate});
+           }
+        });
+    } 
+    else {
+        connection.query('SELECT ID FROM groups WHERE Name=?', [selGroup], function(err, results) {
+            if (err) {
+                console.log(err);
+            } else {
+                for (var i in results) {
+                    selGroupID = results[i].ID;
+                }
+                connection.query('select student_misses.Lesson_ID, student_misses.Student_ID, student_misses.Attend, student_misses.Date, students.Name, lessons.Name as SubjName from student_misses inner join students on student_misses.Student_ID=students.ID inner join lessons on student_misses.Lesson_ID=lessons.ID WHERE students.Group_ID = ? and student_misses.Date = ?', [selGroupID, selDate], function(err, results) {
+                   if (err) {
+                       console.log(err);
+                   } else {
+                       for (var i in results) {
+                           console.log(results[i]);
+                           studArr.push(results[i]);
+                       }
+                       console.log('studarr:', studArr.Name, 'length: ', studArr.length);
+                       res.render('attendancelist', {students: studArr, group: selGroup, date: selDate});
+                       studArr = [];
                    }
-                   console.log('studarr:', studArr.Name, 'length: ', studArr.length);
-                   res.render('attendancelist', {students: studArr, group: selGroup, date: selDate});
-                   studArr = [];
-               }
-            });
-        }
-    })
-
+                });
+            }
+        });
+    }   
 };
 
 module.exports = Controller;

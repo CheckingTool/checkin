@@ -78,14 +78,26 @@ Controller.addlesson = function(req, res, next) {
 Controller.addgroup = function(req, res, next) {
     console.log('addgroup controller');
     var id = parseInt(req.body.id);
-    connection.query('INSERT INTO groups (ID, Name, Teacher_ID) VALUES (?, ?, ?)', [id, req.body.name, req.body.teacherid], function(err, results) {
+    var teacherid = parseInt(req.body.teacherid);
+    connection.query('SELECT * FROM Teachers WHERE ID = ?', [teacherid], function(err, results) {
         if (err) {
             console.log(err);
+        }
+        if (results.length > 0) {
+            connection.query('INSERT INTO groups (ID, Name, Teacher_ID) VALUES (?, ?, ?)', [id, req.body.name, req.body.teacherid], function(err, results) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('succeded');
+                    res.redirect(301, '/admin');
+                }
+            });
         } else {
-            console.log('succeded');
+            console.log('you cannot add the teacher whose ID isnt present in the teacher table');
             res.redirect(301, '/admin');
         }
     });
+    
 };
 
 Controller.delteacher = function(req, res, next) {

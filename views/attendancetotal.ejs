@@ -34,14 +34,12 @@
                     <h2>Attendance</h2> 
                     <tr>
                         <th> Name </th>
-                        <th> Subject </th>
                         <th> Attend </th>
                     </tr>
                     <% for (var i=0; i<students.length; i++) { %> 
                     <tr>
-                        <td><%=students[i].Name %></td>
-                        <td><%=students[i].SubjName %></td>
-                        <td><%=students[i].Attend %></td>
+                        <td><%=students[i].name %></td>
+                        <td><%=students[i].Total_Misses %></td>
                     </tr>    
                     <% } %>
                 </table>
