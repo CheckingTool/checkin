@@ -42,7 +42,6 @@
           var studarr = [];
           $('button').click(function(){
                studarr.length = 0;
-               console.log('studarrlength: ', studarr.length);
                var chvalue = $(this).closest('div').children('h5').children('input[type=checkbox]');
                var lessonname = $(this).closest('div').attr('id');
               (chvalue).each(function () {
@@ -59,7 +58,11 @@
               $.post('http://localhost:3000/checklist/feedback', {
                   studarr: studarr,
                   lessonname: lessonname
-              });
+              }, $.getJSON('http://localhost:3000/checklist/alert', function(data) {
+                 for (var i in data) {
+                     alert(data[i]);
+                 } 
+              }));
           });
       </script>
       

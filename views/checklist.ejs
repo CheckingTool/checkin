@@ -44,16 +44,6 @@
             
         });
           
-        $('#subbit').click(function() {
-            if ($('#group').val() && $('#date').val()) {
-                $.post('http://localhost:3000/checklist/schedule', {
-                  group: group,
-                  date: date
-              });
-          }
-        });
-
-        
       </script>
       
   </body>

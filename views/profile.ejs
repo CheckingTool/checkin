@@ -79,12 +79,35 @@
       </div> 
       
       <script>
-//          $('input[type=submit]').click(function(){
-//              console.log('fovno');
-//              $.get("http://localhost:3000/profile", function( data ) {
-//                  alert(data.message);
-//                });
-//          });
+        var message = '<%= message %>';
+        $(document).ready(function() {
+            switch(message) {
+                case 'truelog': 
+                    alert('You have successfully changed your login');
+                    message = '';
+                    break;
+                case 'truename':
+                    alert('You have successfully changed your name');
+                    message = '';
+                    break;
+                case 'truemail':
+                    alert('You have successfully changed your email');
+                    message = '';
+                    break;
+                case 'truepass':
+                    alert('You have successfully changed your password');
+                    message = '';
+                    break;
+                case 'falsemail':
+                    alert('Such email already exists');
+                    message = '';
+                    break;
+                case 'falselog': 
+                    alert('Such login already exists');
+                    message = '';
+                    break;
+            }
+        });
       </script>
   </body>
 </html>
