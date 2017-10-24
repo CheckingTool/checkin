@@ -1,0 +1,60 @@
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>CheckIN</title>
+    <link rel='stylesheet' href='/stylesheets/mystyle.css' />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+  </head>
+  <body>
+  	<header>
+      <h1>Check list</h1>
+    </header>
+    <div class="container">
+    	<form action="/attendance/list" method="post">
+            
+            <select name="group" id="group">
+                <option></option>
+                <% for(var i=0; i<groups.length; i++) {%>
+                    <option><%= groups[i].Name %></option>
+                <% } %>
+            </select>
+            <select name="date" id="date">
+                <option></option>
+                <% for(var i=0; i<dates.length; i++) {%>
+                    <option><%= dates[i].Date %></option>
+                <% } %>
+            </select>
+            <input type="submit" id="submit" value="Show">
+        </form>
+    </div> 
+      
+      <script>
+        let group;
+        let date;
+        $('#group').change(function() {
+           group = $('#group option:selected').text();
+           console.log(group.length);
+        });
+          $('#date').change(function() {
+            date = $('#date option:selected').text();
+            console.log(date.length);
+            
+        });
+          
+        $('#subbit').click(function() {
+            if ($('#group').val() && $('#date').val()) {
+                $.post('http://localhost:3000/checklist/schedule', {
+                  group: group,
+                  date: date
+              });
+          }
+        });
+
+        
+      </script>
+      
+  </body>
+  </html>

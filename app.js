@@ -13,6 +13,7 @@ var main = require('./routes/main');
 var logout = require('./routes/logout');
 var checklist = require('./routes/checklist');
 var profile = require('./routes/profile');
+var attendance = require('./routes/attendance');
 var nocache = require('nocache');
 var admin = require('./routes/admin');
 var app = express();
@@ -38,9 +39,10 @@ app.use('/logout', logout);
 app.use('/register', reg);
 app.use('/admin', admin);
 app.use('/users', users);
-app.use('/auth',auth);
-app.use('/main',main);
-app.use('/checklist',checklist);
+app.use('/auth', auth);
+app.use('/main', main);
+app.use('/checklist', checklist);
+app.use('/attendance', attendance);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
