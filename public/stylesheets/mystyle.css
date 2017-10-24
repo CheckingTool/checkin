@@ -2,10 +2,11 @@
     font-family: Roboto; 
     src: url(../fonts/roboto/Roboto-Regular.woff2); 
    }
-input[placeholder]          {text-overflow:ellipsis; color:#a69b97}
-input::-moz-placeholder     {text-overflow:ellipsis; color:#a69b97}
-input:-moz-placeholder      {text-overflow:ellipsis; color:#a69b97}
-input:-ms-input-placeholder {text-overflow:ellipsis; color:#a69b97}
+[placeholder]          {text-overflow:ellipsis; color: grey;}
+::-moz-placeholder     {text-overflow:ellipsis; color: grey;}
+:-moz-placeholder      {text-overflow:ellipsis; color: grey;}
+:-ms-input-placeholder {text-overflow:ellipsis; color: grey;}
+::-webkit-input-placeholder {text-overflow:ellipsis;  color: grey;}
 
 input:focus::-webkit-input-placeholder {color: transparent; transition:.1s; transition-timing-function: ease;}
 input:focus::-moz-placeholder          {color: transparent; transition:.1s; transition-timing-function: ease;}
@@ -144,7 +145,7 @@ header h1{
 	letter-spacing: 1px;
 }
 header{
-	box-shadow:  0 5px 5px  rgba(0,0,0,0.70);
+	box-shadow:  0 3px 3px  rgba(0,0,0,0.30);
 	width: 100%;
 	height:64px;
 	background:   #e65100;
@@ -215,7 +216,7 @@ header{
 	float:left; 
 	margin: calc(10%/6);
 	overflow: hidden;
-	box-shadow: 0px 10px 10px  rgba(0,0,0,0.8);	
+	box-shadow: 0px 7px 7px  rgba(0,0,0,0.4);
 }
 .block img{
 	top: 0;
@@ -348,24 +349,27 @@ header{
 	padding: 10px;
 	margin: 20px 5%;
 	border:none;
-	border-bottom: 1px solid #c30000;
+	border-bottom: 1px solid grey;
 	font-size: 18px;
 }
 
 .input-field input:focus{
 	outline:none;
-	border-bottom: 2px solid #c30000;
+	border-bottom: 1px solid #c30000;
+	border-bottom-right-radius:3px;
 	transition: 1s;
-	transition-timing-function: ease;
+	/*transition-timing-function: ease;*/
+	/*outline: 2px solid #c30000;*/
 }
 .sub{
-	padding-left: 25px;
-}
+	padding-left: 25px;}
 #admin .sub input{
+	margin: 20px;
+	cursor: pointer;
 	width: auto;
 	padding: 14px 30px;
 	border-radius: 2px;
-	background: #c30000;
+	background: #e65100;
 	float: left;
 	border:none;
 	outline:none;
@@ -374,4 +378,22 @@ header{
 	font-size: 16px;
 	letter-spacing: .1px;
 	text-transform: uppercase;
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)
+}
+#teachers table, #lessons table, #groups table{
+	margin-top: 70px;
+}
+.sub{
+	/**margin-left: 20px;**/
+}
+table{
+	border: #e65100;
+	width: 90%;
+	margin: 0 5%;
+}
+table td, table th{
+	padding: 20px 10px;
+}
+table th{
+	background: #e65100;
 }
