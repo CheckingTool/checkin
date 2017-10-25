@@ -21,13 +21,11 @@
   </head>
   <body>
   	<header>
-        <div class="header-title"><h1>Attendance List</h1></div>
-        <div class="header-button"><a href="/attendance">Back</a></div>
-
+      <h1>Attendance List</h1> 
       
     </header>
     <div class="container">   
-        <!--<a href="/attendance"><b>Back</b></a>-->
+        <a href="/attendance"><b>Back</b></a>
         <br>
         <h3><%= group %></h3>
         <h3><%= date %></h3>
@@ -36,14 +34,12 @@
                     <h2>Attendance</h2> 
                     <tr>
                         <th> Name </th>
-                        <th> Subject </th>
                         <th> Attend </th>
                     </tr>
                     <% for (var i=0; i<students.length; i++) { %> 
                     <tr>
-                        <td><%=students[i].Name %></td>
-                        <td><%=students[i].SubjName %></td>
-                        <td><%=students[i].Attend %></td>
+                        <td><%=students[i].name %></td>
+                        <td><%=students[i].Total_Misses %></td>
                     </tr>    
                     <% } %>
                 </table>

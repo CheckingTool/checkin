@@ -28,7 +28,7 @@ var selGroup;
 var dates = [];
 var selDate;
 var attendance = [];
-
+var success = false;
 
 Controller.index = function(req,res,next){
 	console.log('controller index');
@@ -120,7 +120,7 @@ Controller.feedback = function(req, res, next) {
         } else {
             for (var i in results) {
                 lessonid = results[i].ID;
-                console.log('lessonid: ', lessonid);//получаем айди выбранного для заполнения посещаемости предмета. его нужно обнулять
+                //получаем айди выбранного для заполнения посещаемости предмета. его нужно обнулять
             }
 
         }
@@ -130,7 +130,7 @@ Controller.feedback = function(req, res, next) {
             } else {
                 for (var i in results) {
                     studID.push(results[i].ID);
-                    console.log('studID:', studID);//получаем айди всех студентов выбранной группы
+                    //получаем айди всех студентов выбранной группы
                 }
                 delete missesinfo.lessonname;
                 let temp;
@@ -138,15 +138,25 @@ Controller.feedback = function(req, res, next) {
                 temp = missesinfo['studarr[]'];
                 for (var i in temp) {
                     attendance.push(temp[i]);
-                    console.log('attendance: ', attendance);//массив отметок посещаемости
+                    //массив отметок посещаемости
                 }
             }
-
+            var studObj = {};
             for (var i=0; i<studID.length; i++) {
+                    if (attendance[i] == 'false' ) {
+                        connection.query('UPDATE students SET Total_Misses = Total_Misses+1 WHERE ID = ?', [studID[i]], function(err, results) {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
+                    }
                     connection.query('INSERT INTO student_misses (Lesson_ID, Student_ID, Date, Attend) VALUES (?, ?, ?, ?)', [lessonid, studID[i], selDate, attendance[i]], function(err, results){
                     if (err) {
                         console.log(err);
-                    } 
+                    } else {
+                        success = true;
+                    }
+
                 });
 
             }
@@ -165,5 +175,14 @@ Controller.feedback = function(req, res, next) {
     }); 
 
 };
+
+Controller.alert = function(req, res, next) {
+    if (success = true) {
+        res.json({message: 'You have successfully added results'});
+    } else {
+        res.json({message: 'You couldnt add results'});
+    }
+    success = false;
+}
 
 module.exports = Controller;

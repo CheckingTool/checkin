@@ -144,6 +144,34 @@
                 
                 </form>
             </div>    
-      </div>  
+      </div> 
+      <script>
+        var message = '<%= message %>';
+        $(document).ready(function() {
+            switch(message) {
+                case 'trueadd': 
+                    console.log(message);
+                    alert('You have successfully added the data');
+                    message = '';
+                    break;
+                case 'truedel':
+                    console.log(message);
+                    alert('You have successfully deleted the data');
+                    message = '';
+                    break;
+                case 'falseadd':
+                    console.log(message);
+                    alert('You couldnt add the data');
+                    message = '';
+                    break;
+                case 'falseadd':
+                    console.log(message);
+                    alert('You couldnt delete the data');
+                    message = '';
+                    break;
+            }
+        })
+      
+      </script>
   </body>
 </html>

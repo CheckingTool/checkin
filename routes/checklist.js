@@ -15,6 +15,7 @@ function checkAuth(req, res, next) {
 /* GET home page. */
 router.get('/', checkAuth, checklistController.index);
 router.get('/misses', checklistController.misses);
+router.get('/alert', checklistController.alert);
 router.post('/schedule', checklistController.schedule);
 router.post('/feedback', checklistController.feedback);
 module.exports = router;

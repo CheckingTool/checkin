@@ -22,21 +22,30 @@ Controller.index = function(req,res,next){
         if (err) {
             console.log(err);
         } else {
-            res.render('profile', {userinfo: results});
+            res.render('profile', {userinfo: results, message: req.session.profMes});
         }
     })
 };
 
 Controller.newlogin = function(req, res, next) {
-    connection.query('UPDATE teachers SET login = ? WHERE email = ?', [req.body.login, req.session.email], 
-    function(err, results) {
-       if (err) {
-           console.log(err);
-       } else {
-           console.log('succeded');
-           res.redirect(301, '/profile');
-       }
+    connection.query('SELECT Login from teachers WHERE Login = ?', [req.body.login], function(err, results) {
+        if (results.length > 0) {
+            console.log('here we are');
+            req.session.profMes = 'falselog';
+            res.redirect(301, '/profile');
+        } else {
+            connection.query('UPDATE teachers SET login = ? WHERE email = ?', [req.body.login, req.session.email], 
+            function(err, results) {
+               if (err) {
+                   console.log(err);
+               } else {
+                   req.session.profMes = 'truelog';
+                   res.redirect(301, '/profile');
+               }
+            });
+        }
     });
+    
 };
 
 Controller.newname = function(req, res, next) {
@@ -45,23 +54,31 @@ Controller.newname = function(req, res, next) {
        if (err) {
            console.log(err);
        } else {
-           console.log('succeded');
+           req.session.profMes = 'truename';
            res.redirect(301, '/profile');
        }
     });    
 };
 
 Controller.newemail = function(req, res, next) {
-    connection.query('UPDATE teachers SET email = ? WHERE email = ?', [req.body.email, req.session.email], 
-    function(err, results) {
-       if (err) {
-           console.log(err);
-       } else {
-           req.session.email = req.body.email;
-           console.log('succeded');
-           res.redirect(301, '/profile');
-       }
-    });    
+    connection.query('SELECT Email from teachers WHERE Email = ?', [req.body.email], function(err, results){
+        if (results.length > 0) {
+            req.session.profMes = 'falsemail';
+            res.redirect(301, '/profile');
+        } else {
+            connection.query('UPDATE teachers SET email = ? WHERE email = ?', [req.body.email, req.session.email], 
+            function(err, results) {
+               if (err) {
+                   console.log(err);
+               } else {
+                   req.session.email = req.body.email;
+                   req.session.profMes = 'truemail';
+                   res.redirect(301, '/profile');
+               }
+            }); 
+        }
+    });
+       
 };
 
 Controller.newpass = function(req, res, next) {
@@ -70,7 +87,7 @@ Controller.newpass = function(req, res, next) {
        if (err) {
            console.log(err);
        } else {
-           console.log('succeded');
+           req.session.profMes = 'truepass';
            res.redirect(301, '/profile');
        }
     });    
