@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var mysql = require('mysql');
 var connection = mysql.createConnection({
     host: 'localhost',
@@ -5,6 +6,7 @@ var connection = mysql.createConnection({
     password: '',
     database: 'checkin'
 });
+
 
 connection.connect(function(err) {
     if (err) {
