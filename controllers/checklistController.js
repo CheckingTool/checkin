@@ -31,7 +31,8 @@ var attendance = [];
 var success = false;
 
 Controller.index = function(req,res,next){
-	console.log('controller index');
+    console.log('controller index');
+
     connection.query("SELECT * FROM groups", function (err, results, fields) {
         if (err) {
             console.log(err);
@@ -57,6 +58,7 @@ Controller.index = function(req,res,next){
     
 };
 Controller.schedule = function(req, res, next) {
+    lessonName = [];
     console.log('controller schedule');
     var groupName = req.body.group; //выбранная группа
     var date = req.body.date; //выбранная дата
@@ -87,6 +89,7 @@ Controller.schedule = function(req, res, next) {
                            
                            lessonName.push(results[i].Name);
                        }
+                       console.log('lessonname:', lessonName);
                        res.redirect(301, '/checklist/misses');
                    } 
                 });
@@ -102,8 +105,9 @@ Controller.misses = function(req, res, next) {
        if (err) {
            console.log(err);
        } else {
-           res.render('misses', {lessons: lessonName, date: selDate, group: selGroup, students: results});
-
+           res.render('misses', {lessons: lessonName, date: selDate, group: selGroup, students: results});  
+           lessonName = [];
+           lessonID = [];
        }
     });
     
@@ -113,7 +117,6 @@ Controller.feedback = function(req, res, next) {
   var lessonid;
   console.log('controller feedback');
   var missesinfo = req.body;
-    console.log(missesinfo);
     connection.query('SELECT ID from lessons WHERE Name= ?', [missesinfo.lessonname], function(err, results){
         if (err) { 
             console.log(err);
