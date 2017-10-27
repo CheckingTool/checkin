@@ -1,0 +1,35 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'G:\\Program Files (x86)\\nodejs\\node.exe',
+1 verbose cli   'G:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'start' ]
+2 info using npm@3.10.10
+3 info using node@v6.11.0
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info lifecycle checkin@0.0.0~prestart: checkin@0.0.0
+6 silly lifecycle checkin@0.0.0~prestart: no script for prestart, continuing
+7 info lifecycle checkin@0.0.0~start: checkin@0.0.0
+8 verbose lifecycle checkin@0.0.0~start: unsafe-perm in lifecycle true
+9 verbose lifecycle checkin@0.0.0~start: PATH: G:\Program Files (x86)\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Users\Дом\Courses\checkin\node_modules\.bin;C:\Users\Дом\AppData\Roaming\npm;G:\Program Files (x86)\nodejs\;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files\Common Files\Autodesk Shared\;C:\Program Files (x86)\Autodesk\Backburner\;G:\Программы\3ds max 2009\;C:\Program Files (x86)\QuickTime\QTSystem\;G:\Программы\Python34\;G:\Программы\Python34\Scripts;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Windows Kits\8.0\Windows Performance Toolkit\;C:\Program Files (x86)\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\Microsoft SQL Server\110\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\110\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\;C:\Program Files (x86)\Microsoft SQL Server\110\DTS\Binn\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;G:\Program Files (x86)\Git\cmd;G:\OpenServer\OpenServer\modules\php\PHP-7.1-x64;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Java\jdk1.8.0_121\bin\;G:\Program Files (x86)\Brackets\command;G:\Program Files (x86)\nodejs\;C:\Users\Дом\AppData\Local\Microsoft\WindowsApps;C:\Users\Дом\AppData\Roaming\npm;C:\Users\Дом\AppData\Local\GitHubDesktop\bin;C:\Program Files\Heroku\bin
+10 verbose lifecycle checkin@0.0.0~start: CWD: C:\Users\Дом\Courses\checkin
+11 silly lifecycle checkin@0.0.0~start: Args: [ '/d /s /c', 'node ./bin/www' ]
+12 verbose stack Error: kill ENOSYS
+12 verbose stack     at exports._errnoException (util.js:1018:11)
+12 verbose stack     at process.kill (internal/process.js:190:13)
+12 verbose stack     at process.listener (G:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:86:15)
+12 verbose stack     at emitNone (events.js:91:20)
+12 verbose stack     at process.emit (events.js:185:7)
+12 verbose stack     at processEmit (G:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:146:32)
+12 verbose stack     at processEmit (G:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:146:32)
+12 verbose stack     at Signal.wrap.onsignal (internal/process.js:217:44)
+13 verbose cwd C:\Users\Дом\Courses\checkin
+14 error Windows_NT 10.0.15063
+15 error argv "G:\\Program Files (x86)\\nodejs\\node.exe" "G:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "start"
+16 error node v6.11.0
+17 error npm  v3.10.10
+18 error code ENOSYS
+19 error errno ENOSYS
+20 error syscall kill
+21 error kill ENOSYS
+22 error If you need help, you may report this error at:
+22 error     <https://github.com/npm/npm/issues>
+23 verbose exit [ 1, true ]
