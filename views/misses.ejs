@@ -40,7 +40,7 @@
        
       <script>
           var studarr = [];
-          $('#confirm').click(function(){
+          $('button').click(function(){
                studarr.length = 0;
                var chvalue = $(this).closest('div').children('h5').children('input[type=checkbox]');
                var lessonname = $(this).closest('div').attr('id');
@@ -54,11 +54,13 @@
                       console.log(false);
                   }
                    
-              });  
+              }); 
+
               $.post('http://localhost:3000/checklist/feedback', {
                   studarr: studarr,
                   lessonname: lessonname
               }, $.getJSON('http://localhost:3000/checklist/alert', function(data) {
+
                  for (var i in data) {
                      alert(data[i]);
                  } 
