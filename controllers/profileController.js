@@ -8,79 +8,59 @@ const connection = mysql.createConnection({
 
 let Controller = function(){}
 
-Controller.index = function(req,res,next){
-    connection.query('SELECT * FROM teachers WHERE Email=?', [req.session.email], function(err, results){
+Controller.index = function(req, res, next) {
+    connection.query('SELECT * FROM teachers WHERE Email=?',
+      [req.session.email],  (err, result) => {
         if (err) {
             console.log(err);
         } else {
-            res.render('profile', {userinfo: results, message: req.session.profMes});
+            res.render(
+                'profile',
+                {
+                    userinfo: result,
+                    message: req.session.profMes
+                }
+            );
         }
     })
 };
 
-Controller.newlogin = function(req, res, next) {
-    connection.query('SELECT Login from teachers WHERE Login = ?', [req.body.login], function(err, results) {
-        if (results.length > 0) {
-            req.session.profMes = 'falselog';
-            res.redirect(301, '/profile');
-        } else {
-            connection.query('UPDATE teachers SET login = ? WHERE email = ?', [req.body.login, req.session.email], 
-            function(err, results) {
-               if (err) {
-                   console.log(err);
-               } else {
-                   req.session.profMes = 'truelog';
-                   res.redirect(301, '/profile');
-               }
-            });
-        }
-    });
-    
+Controller.newlogin = function(req, res) {
+    connection.query('UPDATE teachers SET login = ? WHERE email = ?',
+      [req.body.login, req.session.email], 
+      err => Controller.redirect(req, res, err, 'login')
+    );
 };
 
 Controller.newname = function(req, res, next) {
-    connection.query('UPDATE teachers SET name = ? WHERE email = ?', [req.body.name, req.session.email], 
-    function(err, results) {
-       if (err) {
-           console.log(err);
-       } else {
-           req.session.profMes = 'truename';
-           res.redirect(301, '/profile');
-       }
-    });    
+    connection.query('UPDATE teachers SET name = ? WHERE email = ?',
+      [req.body.name, req.session.email],
+      err => Controller.redirect(req, res, err, 'name')); 
 };
 
 Controller.newemail = function(req, res, next) {
-    connection.query('SELECT Email from teachers WHERE Email = ?', [req.body.email], function(err, results){
-        if (results.length > 0) {
-            req.session.profMes = 'falsemail';
-            res.redirect(301, '/profile');
-        } else {
-            connection.query('UPDATE teachers SET email = ? WHERE email = ?', [req.body.email, req.session.email], 
-            function(err, results) {
-               if (err) {
-                   console.log(err);
-               } else {
-                   req.session.email = req.body.email;
-                   req.session.profMes = 'truemail';
-                   res.redirect(301, '/profile');
-               }
-            }); 
-        }
-    });
-       
+    connection.query('UPDATE teachers SET email = ? WHERE email = ?',
+      [req.body.email, req.session.email], 
+      err => Controller.redirect(req, res, err, 'email')); 
 };
 
 Controller.newpass = function(req, res, next) {
-    connection.query('UPDATE teachers SET password = ? WHERE email = ?', [req.body.password, req.session.email], 
-    function(err, results) {
-       if (err) {
-           console.log(err);
-       } else {
-           req.session.profMes = 'truepass';
-           res.redirect(301, '/profile');
-       }
-    });    
+    connection.query('UPDATE teachers SET password = ? WHERE email = ?',
+      [req.body.password, req.session.email], 
+      err => Controller.redirect(req, res, err, 'password')); 
 };
+
+Controller.redirect = function(req, res, err, changedField) {
+    if (err) {
+        console.log(err);            
+        req.session.profMes = 'false' + changedField;
+    } else {
+        req.session.email = req.body.email; // only in email case
+        req.session.profMes = 'true' + changedField;
+    }
+
+    res.redirect(301, '/profile');
+};
+
 module.exports = Controller;
 
