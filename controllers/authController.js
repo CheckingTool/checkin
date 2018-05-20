@@ -26,7 +26,7 @@ Controller.signup = function(req,res,next){
     var email = req.body.email;
     var password = req.body.password;
     console.log(email, ' ', password);
-    if (email == 'admin@gmail.com' && password == 'admin') {
+    if (email === 'admin@gmail.com' && password === 'admin') {
         req.session.isLoggedIn = true;
         req.session.email = email;
         req.session.admin = true;

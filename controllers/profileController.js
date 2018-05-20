@@ -1,19 +1,10 @@
-var mysql = require('mysql');
-var connection = mysql.createConnection({
+const mysql = require('mysql');
+const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'toor',
     database: 'checkin'
 });
-
-connection.connect(function(err) {
-    if (err) {
-        console.log('Connection could not be established');
-    } else {
-        connection.query("SET SESSION wait_timeout = 604800");
-        console.log('Connected to database');
-    }
-})
 
 let Controller = function(){}
 
@@ -30,7 +21,6 @@ Controller.index = function(req,res,next){
 Controller.newlogin = function(req, res, next) {
     connection.query('SELECT Login from teachers WHERE Login = ?', [req.body.login], function(err, results) {
         if (results.length > 0) {
-            console.log('here we are');
             req.session.profMes = 'falselog';
             res.redirect(301, '/profile');
         } else {

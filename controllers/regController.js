@@ -1,73 +1,36 @@
-var mysql = require('mysql');
-var connection = mysql.createConnection({
+const mysql = require('mysql');
+const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'toor',
-    database: 'checkin'
+    database: 'checkin',
 });
-
-connection.connect(function(err) {
-    if (err) {
-        console.log('Connection could not be established');
-    } else {
-        connection.query("SET SESSION wait_timeout = 604800");
-        console.log('Connected to database');
-    }
-})
 
 let Controller = function(){}
 
 Controller.index = function(req, res, next){
     res.render('reg');
 };
+
 Controller.register = function(req, res, next) {
-    var unique = true;
-    console.log('welcome to register controller');
-    if (req.body.password == req.body.confirm) {
-        connection.query('SELECT Login, Email from teachers', function(err, results) {
-           if (err) {
-               console.log(err);
-           } else {
-               console.log(results);
-               for (var i in results) {
-                   if (results[i].Login == req.body.login || results[i].Email == req.body.email) {
-                       unique = false;
-                   }
-               }
-               if (unique == true) {
-                   var id;
-                   connection.query('SELECT ID from teachers ORDER BY ID DESC LIMIT 1', function(err, results) {
-                       if (err) {
-                           console.log(err);
-                       } else {                        
-                           id = results[0].ID+1;
-                       }
-                       connection.query('INSERT INTO teachers (ID, Name, Login, Email, Password) VALUES(?, ?, ?, ?, ?)', 
-                                        [id, req.body.name, req.body.login, req.body.email, req.body.password], function(err, results) {
-                           if (err) {
-                               console.log(err);
-                           } else {
-                               req.session.isLoggedIn = true;
-                               req.session.email = req.body.email;
-                               console.log('succeded');
-                               res.redirect(301, '/main');
-                           }
-                       });
-                   })
-                        
-               } else {
-                   console.log('your login or email is not unique. Please pick a new one');
-                   res.render('reg');
-               }
-           }
-        });
+    if (req.body.password === req.body.confirm) {//TODO move this logic to the frontend
+        connection.query(`INSERT INTO teachers (ID, Name, Login, Email, Password)
+          VALUES (null, ?, ?, ?, ?)`, 
+          [req.body.name, req.body.login, req.body.email, req.body.password],
+          (err, result) => {
+            if (err) {
+                console.log(err);
+                res.redirect(301, '/register'); //TODO inform user if an err happened
+            } else {
+                req.session.isLoggedIn = true;
+                req.session.email = req.body.email;
+                res.redirect(301, '/main');
+            }
+        });                        
     } else {
-        console.log('you couldnt confirm your password');
-        res.render('reg');
+        res.redirect(301, '/register'); //TODO inform user that passes r not simillar
     }
 };
-
-
 
 module.exports = Controller;
 

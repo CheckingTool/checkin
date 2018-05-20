@@ -1,13 +1,13 @@
-module.exports = function dbconnection() {
-    var mysql = require('mysql');
-    var connection = mysql.createConnection({
+module.exports = function connect() {
+    const mysql = require('mysql');
+    const connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: 'toor',
         database: 'checkin',
     });
 
-    connection.connect(function(err) {
+    connection.connect((err) => {
         if (err) {
             console.log('Connection could not be established');
         } else {
@@ -15,7 +15,7 @@ module.exports = function dbconnection() {
             console.log('Connected to database');
         }
     });
-    
+    return connection;
 };
 
 

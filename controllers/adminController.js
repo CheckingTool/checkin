@@ -17,7 +17,7 @@ connection.connect(function(err) {
 
 const Controller = function(){}
 
-Controller.renderPage = async function(req, res, next){ //select * from teachers, groups, lessons
+Controller.renderPage = async function(req, res, next){
     const groups = await Controller.getData("groups");
     const lessons = await Controller.getData("lessons");
     const teachers = await Controller.getData("teachers");
@@ -30,8 +30,8 @@ Controller.renderPage = async function(req, res, next){ //select * from teachers
     });
 };
 
-Controller.getData = function(dbName) {
-    const query = `SELECT * FROM ${dbName}`;
+Controller.getData = function(table) {
+    const query = `SELECT * FROM ${table}`;
     return new Promise((resolve, reject) => {
         connection.query(query, (err, result) => {
             if (err) {
@@ -47,7 +47,7 @@ Controller.addteacher = function(req, res, next) {
     
     connection.query('INSERT IGNORE INTO teachers (ID, Name, Login, Email, Password) VALUES (?, ?, ?, ?, ?)',
       [id, req.body.name, req.body.login, req.body.email, req.body.password],
-        (err, result) => Controller.redirect(err, result)
+        (err, result) => Controller.redirect(req, res, err, result, "add")
     );
 };
 
@@ -56,7 +56,7 @@ Controller.addlesson = function(req, res, next) {
 
     connection.query('INSERT IGNORE INTO lessons (ID, Name) VALUES (NULL, ?)',
       [req.body.name],
-        (err, result) => Controller.redirect(req, res, err, result)
+        (err, result) => Controller.redirect(req, res, err, result, "add")
     );
 };
 
@@ -66,79 +66,39 @@ Controller.addgroup = function(req, res, next) {
     
     connection.query('INSERT IGNORE INTO groups (ID, Name, Teacher_ID) VALUES (?, ?, ?)',
       [id, req.body.name, req.body.teacherid],
-        (err, result) => Controller.redirect(err, result)
+        (err, result) => Controller.redirect(req, res, err, result, "add")
     );
 };
 
-Controller.redirect = function(req, res, err, result) {
-    if (err || !result.affectedRows) {
-        console.log(err);
-        req.session.admMes = "falseadd";
-    } else {
-        req.session.admMes = "trueadd";
-    }
-    res.redirect(301, "/admin"); 
-};
-
 Controller.delteacher = function(req, res, next) {
-    var id = parseInt(req.body.id);
-    connection.query('SELECT * FROM teachers WHERE ID = ?', [id], function(err, results){
-        if (results.length == 0) {
-            req.session.admMes = 'falsedel';
-            res.redirect(301, '/admin');
-        } else {
-            connection.query('DELETE FROM teachers WHERE ID = ?', [id], function(err, results) {
-               if (err) {
-                   console.log(err);
-               } else {
-                   req.session.admMes = 'truedel';
-                   res.redirect(301, '/admin');
-               }
-            });
-        }
-    });
-    
+    const id = parseInt(req.body.id);
+    connection.query('DELETE FROM teachers WHERE ID = ?', 
+      [id], (err, result) => Controller.redirect(req, res, err, result, "del")
+    );
 };
 
 Controller.dellesson = function(req, res, next) {
-    var id = parseInt(req.body.id);
-    connection.query('SELECT * FROM lessons WHERE ID = ?', [id], function(err, results) {
-        if (results.length == 0) {
-            req.session.admMes = 'falsedel';
-            res.redirect(301, '/admin');
-        } else {
-            connection.query('DELETE FROM lessons WHERE ID = ?', [id], function(err, results) {
-               if (err) {
-                   console.log(err);
-               } else {
-                   req.session.admMes = 'truedel';
-                   res.redirect(301, '/admin');
-               }
-            });
-        }
-    });
-
+    const id = parseInt(req.body.id);
+    connection.query('DELETE FROM lessons WHERE ID = ?', 
+      [id], (err, result) => Controller.redirect(req, res, err, result, "del")
+    );
 };
 
 Controller.delgroup = function(req, res, next) {
-    var id = parseInt(req.body.id);
-    connection.query('SELECT * FROM groups WHERE ID = ?', [id], function(err, results) {
-        if (results.length == 0) {
-            req.session.message = 'falsedel';
-            res.redirect(301, '/admin');
-        } else {
-            connection.query('DELETE FROM groups WHERE ID = ?', [id], function(err, results) {
-               if (err) {
-                   console.log(err);
-               } else {
-                   req.session.mesage = 'truedel';
-                   res.redirect(301, '/admin');
-               }
-            });
-        }
-    });
-    
+    const id = parseInt(req.body.id);
+    connection.query('DELETE FROM groups WHERE ID = ?',
+      [id], (err, results) => Controller.redirect(req, res, err, result, "del")
+    ); 
 };
 
+Controller.redirect = function(req, res, err, result, method) {
+    if (err || !result.affectedRows) {
+        console.log(err);
+        req.session.admMes = "false" + method;
+    } else {
+        req.session.admMes = "true" + method;
+    }
+    res.redirect(301, "/admin"); 
+};
 
 module.exports = Controller;

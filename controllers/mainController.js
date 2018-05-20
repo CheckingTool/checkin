@@ -1,6 +1,6 @@
 
 module.exports = {
-	check:function(req,res,next){
+	check: function (req, res, next) {
 		res.redirect('/checklist');
 	}
 }
