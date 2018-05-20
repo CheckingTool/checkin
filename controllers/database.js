@@ -3,7 +3,7 @@ module.exports = function dbconnection() {
     var connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
-        password: '',
+        password: 'toor',
         database: 'checkin',
     });
 

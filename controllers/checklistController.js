@@ -3,7 +3,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: 'toor',
     database: 'checkin',
 });
 
@@ -101,7 +101,7 @@ Controller.schedule = function(req, res, next) {
 
 Controller.misses = function(req, res, next) {
     console.log('controller misses');
-    connection.query('SELECT * from Students WHERE Group_ID=?', [groupID], function(err, results) { //получаем всех студентов
+    connection.query('SELECT * from students WHERE Group_ID=?', [groupID], function(err, results) { //получаем всех студентов
        if (err) {
            console.log(err);
        } else {

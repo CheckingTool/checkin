@@ -4,20 +4,12 @@
     <title>CheckIN</title>
     <!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <!--Import materialize.css-->
-      <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">-->
-
-      <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
     <link rel='stylesheet' href='/stylesheets/mystyle.css' />
     <script
       src="https://code.jquery.com/jquery-3.2.1.min.js"
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
       crossorigin="anonymous"></script>
-   <!-- <style>
-        table {border: 3px black solid;}  
-      
-    </style>-->
   </head>
   <body id='admin'>
   <header>
@@ -94,7 +86,7 @@
                 </table>
                 <form method="post" class="register-form col s3 m3 l3">
                     <div class="input-field col s3 m3 l3">
-                        <input id="id" type="text" name="id" required placeholder="Id">
+                        <input id="id" type="text" name="id" placeholder="Id">
                         <!--<label for="id">ID</label>-->
                     </div>
                     <div class="input-field col s3 m3 l3">
@@ -146,30 +138,23 @@
             </div>    
       </div> 
       <script>
-        var message = '<%= message %>';
+        let message = '<%= message %>';
         $(document).ready(function() {
             switch(message) {
                 case 'trueadd': 
-                    console.log(message);
                     alert('You have successfully added the data');
-                    message = '';
                     break;
                 case 'truedel':
-                    console.log(message);
                     alert('You have successfully deleted the data');
-                    message = '';
                     break;
                 case 'falseadd':
-                    console.log(message);
                     alert('You couldnt add the data');
-                    message = '';
                     break;
                 case 'falseadd':
-                    console.log(message);
                     alert('You couldnt delete the data');
-                    message = '';
                     break;
             }
+            message = "";
         })
       
       </script>

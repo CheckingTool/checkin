@@ -13,7 +13,7 @@ function checkAuth(req, res, next) {
     };
 
 /* GET home page. */
-router.get('/', checkAuth, adminController.crud);
+router.get('/', adminController.renderPage);
 router.post('/addteacher', adminController.addteacher);
 router.post('/addlesson', adminController.addlesson);
 router.post('/addgroup', adminController.addgroup);
