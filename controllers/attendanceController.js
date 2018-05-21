@@ -7,7 +7,6 @@ var connection = mysql.createConnection({
     database: 'checkin'
 });
 
-
 connection.connect(function(err) {
     if (err) {
         console.log('Connection could not be established');
@@ -15,9 +14,9 @@ connection.connect(function(err) {
         connection.query("SET SESSION wait_timeout = 604800");
         console.log('Connected to database');
     }
-})
+});
 
-let Controller = function(){}
+let Controller = function(){};
 var lessonName = [];
 var lessonID = [];
 var selDate;
@@ -25,27 +24,12 @@ var selGroup;
 var groupID;
 var studArr = [];
 
-Controller.index = function(req, res, next){
-        connection.query("SELECT * FROM groups", function (err, results, fields) {
-        if (err) {
-            console.log(err);
-        } else {
-            groups = results;
-            
-        }
-        
-        connection.query("SELECT Date FROM schedules", function (err, results, fields) {
-        if (err) {
-            console.log(err);
-        } else {
-            dates = results;
-            
-        }
+Controller.index = async function(req, res) {
+  const groups = await Controller.getGroups();
+  const dates = await Controller.getDates();
 
-        var uniqdates = _.uniqBy(dates, 'Date');
-        res.render('attendance', {groups: groups, dates: uniqdates, lessons: lessonName});
-        });
-    });
+  res.render('attendance', {groups: groups, dates: dates, lessons: lessonName});
+
 };
 
 Controller.list = function(req, res, next) {
@@ -88,6 +72,34 @@ Controller.list = function(req, res, next) {
             }
         });
     }   
+};
+
+Controller.getGroups = async function() {
+
+  return new Promise((resolve, reject) => {
+    connection.query(`SELECT * FROM groups`, (err, result) => {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(result);
+    });
+  });
+};
+
+Controller.getDates = async function() {
+
+  return new Promise((resolve, reject) => {
+    connection.query(`SELECT Date FROM schedules`, (err, result) => {
+      if (err) {
+        return reject(err);
+      }
+
+      const uniqueDates = _.uniqBy(result, 'Date');
+
+      resolve(uniqueDates);
+    });
+  });
 };
 
 module.exports = Controller;
