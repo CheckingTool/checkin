@@ -9,16 +9,16 @@ const connection = mysql.createConnection({
 const Controller = function(){}
 
 Controller.renderPage = async function(req, res, next){
-    const groups = await Controller.getData("groups");
-    const lessons = await Controller.getData("lessons");
-    const teachers = await Controller.getData("teachers");
+  const groups = await Controller.getData("groups");
+  const lessons = await Controller.getData("lessons");
+  const teachers = await Controller.getData("teachers");
 
-    res.render("admin", {
-        groups: groups,
-        lessons: lessons,
-        teachers: teachers, 
-        message: req.session.admMes
-    });
+  res.render("admin", {
+    groups: groups,
+    lessons: lessons,
+    teachers: teachers,
+    message: req.session.admMes
+  });
 };
 
 Controller.getData = function(table) {
@@ -36,7 +36,6 @@ Controller.getData = function(table) {
 };
 
 Controller.addteacher = function(req, res, next) {
-
   connection.query('INSERT IGNORE INTO teachers (ID, Name, Login, Email, Password) VALUES (?, ?, ?, ?, ?)',
     [id, req.body.name, req.body.login, req.body.email, req.body.password],
       (err, result) => Controller.redirect(req, res, err, result, "add")
@@ -44,7 +43,6 @@ Controller.addteacher = function(req, res, next) {
 };
 
 Controller.addlesson = function(req, res, next) {
-
   connection.query('INSERT IGNORE INTO lessons (ID, Name) VALUES (NULL, ?)',
     [req.body.name],
       (err, result) => Controller.redirect(req, res, err, result, "add")
@@ -69,16 +67,18 @@ Controller.delteacher = function(req, res, next) {
 
 Controller.dellesson = function(req, res, next) {
   const id = parseInt(req.body.id);
+
   connection.query('DELETE FROM lessons WHERE ID = ?',
     [id], (err, result) => Controller.redirect(req, res, err, result, "del")
   );
 };
 
 Controller.delgroup = function(req, res, next) {
-    const id = parseInt(req.body.id);
-    connection.query('DELETE FROM groups WHERE ID = ?',
-      [id], (err, results) => Controller.redirect(req, res, err, result, "del")
-    ); 
+  const id = parseInt(req.body.id);
+
+  connection.query('DELETE FROM groups WHERE ID = ?',
+    [id], (err, results) => Controller.redirect(req, res, err, result, "del")
+  );
 };
 
 Controller.redirect = function(req, res, err, result, method) {

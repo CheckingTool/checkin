@@ -1,21 +1,20 @@
-var _ = require('lodash');
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'toor',
-    database: 'checkin',
+const _ = require('lodash');
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'toor',
+  database: 'checkin',
 });
 
 connection.connect(function(err) {
-    if (err) {
-        console.log('Connection could not be established');
-    } else {
-        connection.query("SET SESSION wait_timeout = 604800");
-        console.log('Connected to database');
-    }
+  if (err) {
+    console.log('Connection could not be established');
+  } else {
+    connection.query("SET SESSION wait_timeout = 604800");
+    console.log('Connected to database');
+  }
 });
-
 
 let Controller = function(){}
 var lessonName = [];
@@ -30,71 +29,56 @@ var selDate;
 var attendance = [];
 var success = false;
 
-Controller.index = function(req,res,next){
-    console.log('controller index');
+Controller.index = async function(req, res){
 
-    connection.query("SELECT * FROM groups", function (err, results, fields) {
-        if (err) {
-            console.log(err);
-        } else {
-            groups = results;
-            
-        }
-        
-        connection.query("SELECT Date FROM schedules", function (err, results, fields) {
-        if (err) {
-            console.log(err);
-        } else {
-            dates = results;
-            
-        }
+  const groups = await Controller.getGroups();
+  const rawDates = await Controller.getDates();
+  const uniqDates = _.uniqBy(rawDates, "Date");
 
-        var uniqdates = _.uniqBy(dates, 'Date');
-        res.render('checklist', {groups: groups, dates: uniqdates, lessons: lessonName});
-        });
-    });
-    
-  
-    
+  res.render('checklist', { groups: groups, dates: uniqDates });
 };
+
 Controller.schedule = function(req, res, next) {
     lessonName = [];
-    console.log('controller schedule');
-    var groupName = req.body.group; //выбранная группа
-    var date = req.body.date; //выбранная дата
+    const groupName = req.body.group;
+    const date = req.body.date;
+
     selGroup = groupName;
     selDate = date;
-    connection.query("SELECT * from groups WHERE Name = ?", [groupName], function(err, results, fields) { 
+
+    connection.query("SELECT * from groups WHERE Name = ?", [groupName], function(err, results) {
+      if (err) {
+        console.log(err);
+      }
+
+      for (var i in results) {
+        groupID = results[i].ID; //получаем айди группы для дальнейшего поиска по таблице расписания
+      }
+      connection.query("SELECT Lesson_ID FROM schedules WHERE Group_ID = ? AND Date = ?", [groupID, date], function(err, results, fields) {
         if (err) {
             console.log(err);
-        } else {
-            for (var i in results) {
-                groupID = results[i].ID; //получаем айди группы для дальнейшего поиска по таблице расписания
-            }
-            connection.query("SELECT Lesson_ID FROM schedules WHERE Group_ID = ? AND Date = ?", [groupID, date], function(err, results, fields) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log('resulst are: ', results);
-                    for (var i in results) {
-                        lessonID.push(results[i].Lesson_ID); //получаем айди предметов для данной группы в данный день
-                    }
-                }
-                connection.query("SELECT Name FROM lessons WHERE ID IN (?)", //получаем массив предметов в lessonname
-                    [lessonID], function(err, results, fields) {
-                   if (err) {
-                       console.log(err);
-                   } else {  
-                       for (var i in results) {
-                           
-                           lessonName.push(results[i].Name);
-                       }
-                       console.log('lessonname:', lessonName);
-                       res.redirect(301, '/checklist/misses');
-                   } 
-                });
-            });
         }
+
+        console.log('resulst are: ', results);
+        for (var i in results) {
+            lessonID.push(results[i].Lesson_ID); //получаем айди предметов для данной группы в данный день
+        }
+        
+        connection.query("SELECT Name FROM lessons WHERE ID IN (?)", //получаем массив предметов в lessonname
+            [lessonID], function(err, results, fields) {
+           if (err) {
+               console.log(err);
+           }
+
+           for (var i in results) {
+             lessonName.push(results[i].Name);
+           }
+
+           console.log('lessonname:', lessonName);
+           res.redirect(301, '/checklist/misses');
+
+        });
+      });
     });
    
 };
@@ -186,6 +170,30 @@ Controller.alert = function(req, res, next) {
         res.json({message: 'You couldnt add results'});
     }
     success = false;
-}
+};
+
+Controller.getGroups = async function() {
+  return new Promise((resolve, reject) => {
+    connection.query(`SELECT * FROM groups`, (err, result) => {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(result);
+    });
+  })
+};
+
+Controller.getDates = async function() {
+  return new Promise((resolve, reject) => {
+    connection.query(`SELECT Date FROM schedules`, (err, result) => {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(result);
+    });
+  })
+};
 
 module.exports = Controller;

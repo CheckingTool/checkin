@@ -8,9 +8,9 @@ const connection = mysql.createConnection({
 
 let Controller = function(){}
 
-Controller.index = function(req, res, next) {
+Controller.index = function(req, res) {
   connection.query('SELECT * FROM teachers WHERE Email=?',
-    [req.session.email],  (err, result) => {
+    [ req.session.email ], (err, result) => {
       if (err) {
           console.log(err);
 
@@ -29,26 +29,26 @@ Controller.index = function(req, res, next) {
 
 Controller.newlogin = function(req, res) {
   connection.query('UPDATE teachers SET login = ? WHERE email = ?',
-    [req.body.login, req.session.email],
+    [ req.body.login, req.session.email ],
     err => Controller.redirect(req, res, err, 'login')
   );
 };
 
-Controller.newname = function(req, res, next) {
+Controller.newname = function(req, res) {
   connection.query('UPDATE teachers SET name = ? WHERE email = ?',
-    [req.body.name, req.session.email],
+    [ req.body.name, req.session.email ],
     err => Controller.redirect(req, res, err, 'name'));
 };
 
-Controller.newemail = function(req, res, next) {
+Controller.newemail = function(req, res) {
   connection.query('UPDATE teachers SET email = ? WHERE email = ?',
-    [req.body.email, req.session.email],
+    [ req.body.email, req.session.email ],
     err => Controller.redirect(req, res, err, 'email'));
 };
 
-Controller.newpass = function(req, res, next) {
+Controller.newpass = function(req, res) {
   connection.query('UPDATE teachers SET password = ? WHERE email = ?',
-    [req.body.password, req.session.email],
+    [ req.body.password, req.session.email ],
     err => Controller.redirect(req, res, err, 'password'));
 };
 
