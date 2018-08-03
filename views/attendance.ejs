@@ -47,7 +47,7 @@
           
         $('#subbit').click(function() {
             if ($('#group').val() && $('#date').val()) {
-                $.post('http://localhost:3000/checklist/schedule', {
+                $.post('http://localhost:3001/checklist/schedule', {
                   group: group,
                   date: date
               });

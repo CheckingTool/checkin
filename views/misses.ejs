@@ -56,10 +56,10 @@
                    
               }); 
 
-              $.post('http://localhost:3000/checklist/feedback', {
+              $.post('http://localhost:3001/checklist/feedback', {
                   studarr: studarr,
                   lessonname: lessonname
-              }, $.getJSON('http://localhost:3000/checklist/alert', function(data) {
+              }, $.getJSON('http://localhost:3001/checklist/alert', function(data) {
 
                  for (var i in data) {
                      alert(data[i]);
